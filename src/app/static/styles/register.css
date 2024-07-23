@@ -1,0 +1,111 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+
+body{
+  background-color: blueviolet;
+}
+
+.container_principal{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+}
+
+.form_register{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 50%;
+  width: 40%;
+  background-color: white;
+  border-radius: 25px;
+  border: 1px black solid;
+}
+
+.container_fields{
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  width: 100%;
+  height: 60%;
+}
+
+.element_form_register{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin: 5px;
+  width: 90%;
+}
+
+.element_form_register label{
+  color: blueviolet;
+  font-weight: bold;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 3px;
+  user-select: none;
+}
+
+.element_form_register input{
+  width: 80%;
+  background-color: blueviolet;
+  padding: 3px 5px;
+  border-radius: 25px;
+  color: white;
+  font-weight: bold;
+  border: 1px solid black;
+}
+
+.container_button{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 15px;
+  width: 50%;
+}
+
+.container_button input{
+  background-color: blueviolet;
+  color: white;
+  font-weight: bold;
+  width: 50%;
+  padding: 3px 0;
+  border-radius: 15px;
+  border: 1px solid black;
+  cursor: pointer;
+}
+
+.container_button input:hover{
+  background-color: peru;
+}
+
+.back_button
+{
+  position: absolute;
+  color: blueviolet;
+  margin: 5px 10px;
+  padding: 5px;
+  font-weight: bold;
+  font-size: 20px;
+  border: 1px solid black;
+  border-radius: 15px;
+  cursor: pointer;
+  user-select: none;
+  background-color: white;
+}
+
+.back_button:hover{
+  background-color: black;
+  color: peru;
+}
+

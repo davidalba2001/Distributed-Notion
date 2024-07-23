@@ -1,0 +1,27 @@
+{%extends 'base.html'%}
+
+{%block styles_link%}
+<link rel="stylesheet" href="{{url_for('static', filename='styles/register.css')}}"/>
+{%endblock%}
+{%block content%}  
+  <a class="back_button" href="{{url_for('auth.login')}}">back</a>
+  <div class="container_principal">
+    <form class="form_register" method="POST">
+      {{form.hidden_tag()}}
+      <div class="container_fields">
+        <div class="element_form_register">
+          {{form.username.label}} 
+          {{form.username}}
+        </div>
+        <div class="element_form_register">
+          {{form.number.label}} 
+          {{form.number}}
+        </div>
+      </div>
+      <div class="container_button">
+        {{form.submit}}
+      </div>
+    </form>
+  </div>
+{%endblock%}
+    
