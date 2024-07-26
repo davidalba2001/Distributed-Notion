@@ -45,7 +45,7 @@ def register():
 def homepage():
   id = int(request.args.get('id'))
   my_name = request.args.get('my_name')
-  data = server.get(set_id(my_name), 'notes')
+  data = server.get(id, 'notes')
   parse_data = data.split('\n')
   context = {
     'notes': [note for note in parse_data if note != ''],
@@ -78,3 +78,27 @@ def add_contact():
     return redirect(url_for('auth.contacts', id=id, my_name=my_name))
   
   return render_template('add_contact.html', **context)
+
+#rutar para agregar una nota
+@auth.route('/add_note', methods=['GET', 'POST'])
+def add_note():
+  id = int(request.args.get('id'))
+  my_name = request.args.get('my_name')
+  form = AddNote()
+  context = {
+    'form': form,
+    'id': id,
+    'my_name': 'sex'
+    }
+  
+  if form.validate_on_submit():
+    title = form.title.data
+    response = server.add_note(id, title)
+  
+    if response == 'Note already exists':
+      return render_template('add_note.html', **context)
+    
+    return redirect(url_for('auth.homepage', id=id, my_name=my_name))
+  
+  return render_template('add_note.html', **context)
+

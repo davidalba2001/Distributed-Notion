@@ -1,0 +1,128 @@
+body{
+  background-color: blueviolet;
+}
+
+.container_principal{
+  height: 100vh;
+}
+
+.container_head{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  padding: 10px;
+  font-size: 23px;
+  text-shadow: 1px 1px 2px white;
+  user-select: none;
+}
+
+.principal_content_contacts{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  height: 75%;
+}
+
+.container_contacts{
+  height: 100%;
+  background-color: white;
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  border: 1px solid black;
+  border-radius: 25px;
+}
+
+.contacts_head{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: blueviolet;
+  color: white;
+  width: 80%;
+  height: 10%;
+  margin: 15px;
+  border: 1px solid black;
+  border-radius: 25px;
+  user-select: none;
+}
+
+.container_list{
+  background-color: blueviolet;
+  width: 85%;
+  height: 100%;
+  border: 1px solid black;
+  border-radius: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.container_link{
+  user-select: none;
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 5px;
+  margin: 1px 0;
+  width: 95%;
+}
+
+.container_link:hover{
+  border-radius: 25px;
+  background-color: black;
+  color: peru;
+}
+
+.buttons_homepage{
+  width: 85%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.button_foot{
+  background-color: blueviolet;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px;
+  width: 20%;
+  height: 63%;
+  border-radius: 25px;
+  border: 1px solid black;
+  cursor: pointer;
+}
+
+.button_foot:hover{
+  background-color: black;
+  color: peru;
+}
+
+.back_button
+{
+  position: absolute;
+  color: blueviolet;
+  margin: 5px 10px;
+  padding: 5px;
+  font-weight: bold;
+  font-size: 20px;
+  border: 1px solid black;
+  border-radius: 15px;
+  cursor: pointer;
+  user-select: none;
+  background-color: white;
+}
+
+.back_button:hover{
+  background-color: black;
+  color: peru;
+}

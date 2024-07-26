@@ -1,0 +1,29 @@
+{%extends 'base.html'%}
+
+{%block styles_link%}
+<link rel="stylesheet" href="{{url_for('static', filename='styles/homepage.css')}}"/>
+{%endblock%}
+{%block content%}
+  <div class="container_principal">
+    <a class="back_button" href="{{url_for('auth.login')}}">back</a>
+    <div class='container_head'>
+      <h2>Home-Page</h2>
+    </div>
+    <div class="principal_content_contacts">
+      <div class="container_contacts">
+        <div class="contacts_head">
+          <h3>Contacts</h3>
+        </div>
+        <nav class="container_list">
+          {%for note in notes%}
+            <a class="container_link" href="{{url_for('auth.register', title=note.split('-')[0].strip(), admin=note.split('-')[1].strip(), id=id, my_name=my_name)}}">{{note}}</a>
+          {%endfor%}
+        </nav>
+        <div class="buttons_homepage">
+          <a class='button_foot' href="{{url_for('auth.add_note', id=id, my_name=my_name)}}">add note</a>
+          <a class='button_foot' href="{{url_for('auth.contacts', id=id, my_name=my_name)}}">contacts</a>
+        </div>
+      </div>
+    </div>
+  </div>
+{%endblock%}

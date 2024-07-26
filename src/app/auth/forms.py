@@ -20,3 +20,8 @@ class AddContact(FlaskForm):
   name = StringField('name', validators=[DataRequired(), Length(1, 16, message='max 16 characters')])
   number = IntegerField('number', validators=[DataRequired(), NumberRange(min=10000000, message='invalid number (8 digits required)')])
   submit = SubmitField('add contact')
+  
+#formulario de la vista 'add_note'
+class AddNote(FlaskForm):
+  title = StringField('title', validators=[DataRequired(), Length(1, 16, message='max 16 characters')])
+  submit = SubmitField('add note')
