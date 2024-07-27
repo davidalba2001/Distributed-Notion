@@ -25,3 +25,13 @@ class AddContact(FlaskForm):
 class AddNote(FlaskForm):
   title = StringField('title', validators=[DataRequired(), Length(1, 16, message='max 16 characters')])
   submit = SubmitField('add note')
+  
+#formulario de la vista 'note'
+class Note(FlaskForm):
+  text = StringField('text', validators=[DataRequired()])
+  submit = SubmitField('send')
+  
+#formulario de la vista share
+class Share(FlaskForm):
+  username = StringField('username', validators=[DataRequired()])
+  submit = SubmitField('ok')

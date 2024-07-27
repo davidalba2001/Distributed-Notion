@@ -1,5 +1,5 @@
 #dependencias
-from flask import redirect, url_for, render_template, flash, request
+from flask import redirect, url_for, render_template, request
 from src.app.auth import auth, server
 from src.app.auth.forms import *
 from src.utils import set_id
@@ -88,7 +88,7 @@ def add_note():
   context = {
     'form': form,
     'id': id,
-    'my_name': 'sex'
+    'my_name': my_name
     }
   
   if form.validate_on_submit():
@@ -102,3 +102,69 @@ def add_note():
   
   return render_template('add_note.html', **context)
 
+#ruta de los contactos
+@auth.route('/contacts')
+def contacts():
+  id = int(request.args.get('id'))
+  my_name = request.args.get('my_name')
+  data = server.get(id, 'contacts')
+  parse_data = data.split('\n')
+  context = {
+    'contacts': [contact for contact in parse_data if contact != ''],
+    'id': id,
+    'my_name': my_name
+    } 
+  return render_template('contacts.html', **context)
+
+#ruta para chatear
+@auth.route('/note', methods=['GET', 'POST'])
+def note():
+  id = int(request.args.get('id'))
+  my_name = request.args.get('my_name')
+  title = request.args.get('title')
+  admin = request.args.get('admin')
+  data = server.get(id, f'{title} - {admin}')
+  form = Note()
+  
+  if form.validate_on_submit():
+    msg = form.text.data
+    server.recv_msg(id, f'{title} - {admin}', my_name, msg)
+    
+  context = {
+    'form': form,
+    'id': id,
+    'my_name': my_name, 
+    'title': title,
+    'admin': admin,
+    'data': [msg for msg in data.replace(f'[{my_name}]', '[YOU]').split('\n') if msg != '']
+    }
+  return render_template('note.html', **context)
+
+#ruta para compartir una nota
+@auth.route('/share')
+def share():
+  id = int(request.args.get('id'))
+  my_name = request.args.get('my_name')
+  title = request.args.get('title')
+  admin = request.args.get('admin')
+  form = Share()
+  
+  if form.validate_on_submit:
+    username = form.username.data
+    contacts = server.get(id, 'contacts')
+    names = [contact.split('-')[0].strip() for contact in contacts.split('\n') if contact != '']
+    
+    if username in names:
+      server.recv_note(set_id(username), my_name, title)
+      return redirect('auth.note', id=id, my_name=my_name, title=title, admin=admin)
+      
+  context = {
+    'id': id,
+    'my_name': my_name,
+    'title': title,
+    'admin': admin,
+    'form': form
+  }
+  return render_template('share.html', **context)
+  
+  

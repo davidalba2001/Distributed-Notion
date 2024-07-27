@@ -1,0 +1,23 @@
+{%extends 'base.html'%}
+
+{%block styles_link%}
+  <link rel="stylesheet" href="{{url_for('static', filename='styles/contacts.css')}}"/>
+{%endblock%}
+{%block content%}
+  <a class="back_button" href="{{url_for('auth.homepage', id=id, my_name=my_name)}}">back</a>
+  <div class="container_principal">
+    <div class="principal_content_contacts">
+      <div class="container_contacts">
+        <div class="contacts_head">
+          <h3>Contacts</h3>
+        </div>
+        <ul class="container_list">
+          {%for contact in contacts%}
+            <li class="container_li">{{contact}}</li>
+          {%endfor%}
+        </ul>
+        <a class='button_contact' href="{{url_for('auth.add_contact', id=id, my_name=my_name)}}">add contact</a>
+      </div>
+    </div>
+  </div>
+{%endblock%}

@@ -1,0 +1,123 @@
+body{
+  background-color: blueviolet;
+}
+
+.container_principal{
+  height: 100vh;
+}
+
+.container_head{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  padding: 10px;
+  font-size: 23px;
+  text-shadow: 1px 1px 2px white;
+  user-select: none;
+}
+
+.principal_content_chats{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  height: 75%;
+}
+
+.container_chats{
+  height: 100%;
+  background-color: white;
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  border: 1px solid black;
+  border-radius: 25px;
+}
+
+.chats_head{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: blueviolet;
+  color: white;
+  width: 80%;
+  height: 10%;
+  margin: 15px;
+  border: 1px solid black;
+  border-radius: 25px;
+  user-select: none;
+}
+
+.chats{
+  background-color: blueviolet;
+  width: 85%;
+  height: 100%;
+  border: 1px solid black;
+  border-radius: 25px;
+}
+
+.msg{
+  color: white;
+  font-weight: bold;
+}
+
+.send_msg{
+  display: flex;
+  margin: 15px 0;
+  width: 85%;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#text{
+  width: 90%;
+  padding: 5px;
+  background-color: blueviolet;
+  color: white;
+  font-weight: bold;
+  border: 1px solid black;
+  border-radius: 25px;
+  user-select: none;
+}
+
+#submit{
+  background-color: blueviolet;
+  color: white;
+  font-weight: bold;
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 5px 8px;
+  margin: 0 3px;
+  cursor: pointer;
+}
+
+#submit:hover{
+  color: peru;
+  background-color: black;
+}
+
+.button{
+  position: absolute;
+  color: blueviolet;
+  font-weight: bold;
+  font-size: 20px;
+  border: 1px solid black;
+  border-radius: 15px;
+  cursor: pointer;
+  user-select: none;
+  background-color: white;
+  padding: 5px;
+  margin: 5px 10px;
+}
+
+.share_button{
+  left: 90%;
+}
+
+.button:hover{
+  background-color: black;
+  color: peru;
+}
+

@@ -1,17 +1,18 @@
 {%extends 'base.html'%}
 
 {%block styles_link%}
-  <link rel="stylesheet" href="{{url_for('static', filename='styles/add_note.css')}}"/>
+  <link rel="stylesheet" href="{{url_for('static', filename='styles/share.css')}}"/>
 {%endblock%}
 {%block content%}  
-  <a class="back_button" href="{{url_for('auth.homepage', id=id, my_name=my_name)}}">back</a>
+  <a class="back_button" href="{{url_for('auth.note', id=id, my_name=my_name, title=title, admin=admin)}}">back</a>
   <div class="container_principal">
+    <h3 class="head">Share note with:</h3>
     <form class="form_note" method="POST">
       {{form.hidden_tag()}}
       <div class="container_fields">
         <div class="element_form">
-          {{form.title.label}} 
-          {{form.title}}
+          {{form.username.label}} 
+          {{form.username}}
         </div>
       </div>
       <div class="container_button">

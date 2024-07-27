@@ -1,0 +1,33 @@
+{%extends 'base.html'%}
+
+{%block styles_link%}
+  <link rel="stylesheet" href="{{url_for('static', filename='styles/note.css')}}"/>
+{%endblock%}
+{%block content%}
+  <a class="button" href="{{url_for('auth.homepage', id=id, my_name=my_name)}}">back</a>
+  {%if admin == my_name%}
+    <a class="share_button button" href="{{url_for('auth.share', id=id, my_name=my_name, title=title, admin=admin)}}">share</a>
+  {%endif%}
+  <div class="container_principal">
+    <div class='container_head'>
+      <h2>Note-Page</h2>
+    </div>
+    <div class="principal_content_chats">
+      <div class="container_chats">
+        <div class="chats_head">
+          <h3>{{title}}, created for {{admin}}</h3>
+        </div>
+        <div class="chats">
+          {%for msg in data%}
+            <p class="msg">{{msg}}</p>
+          {%endfor%}
+        </div>
+        <form class="send_msg" method="post">
+          {{form.hidden_tag()}}
+          {{form.text}}
+          {{form.submit}}
+        </form>
+      </div>
+    </div>
+  </div>
+{%endblock%}
