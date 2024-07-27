@@ -83,7 +83,7 @@ class DB:
     return ''
   
   #compartir una nota
-  def share_note(cls, id: int, name: str, note: str):
+  def recv_note(cls, id: int, name: str, note: str):
     #referenciar el usuario segun el id
     user = find_user(id)
     
