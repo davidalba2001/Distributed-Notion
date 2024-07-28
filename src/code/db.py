@@ -2,7 +2,7 @@
 from src.utils import set_id
 import os
 
-#direccion de donde estoy
+#direccion de la base de datos
 DB = f'{os.path.dirname(os.path.abspath(__file__))}/db'
 
 #encontrar un usuario segun su id
@@ -12,23 +12,19 @@ def find_user(id: int) -> str:
       return f'{DB}/{user}'
 
 #objeto para encapsular la interaccion del usuario con la db
-class DB:
+class DataBase:
   #registrar un usuario en la db
   @classmethod
   def register(cls, name: str, number: int) -> str:
     #verificar si esta en la db
     if os.path.exists(f'{DB}/{name}'):
-      return 'Username already in use'
+      return 'User already exists'
     
-    with open(f'{DB}/{name}/number.txt', 'r') as f:
-      if str(number) in f.read():
-        return 'User already in exists'
-   
     #agregar al nuevo usuario
     os.mkdir(f'{DB}/{name}')
     
     with open(f'{DB}/{name}/number.txt', 'w') as f:
-     f.write(number)
+     f.write(str(number))
     
     with open(f'{DB}/{name}/contacts.txt', 'w') as f:
       f.write('')
@@ -45,7 +41,7 @@ class DB:
     if os.path.exists(f'{DB}/{name}'):
       with open(f'{DB}/{name}/number.txt', 'r') as f:
         if str(number) in f.read(): 
-          return ''
+          return 'succesfully login'
         
     return 'User not registred'
 
@@ -63,7 +59,7 @@ class DB:
     with open(f'{user}/contacts.txt', 'a') as f:
       f.write(f'{name}\n')
     
-    return ''
+    return f'Succesfully add contact: {name}'
    
   #agregar una nota
   @classmethod 
@@ -105,8 +101,7 @@ class DB:
     with open(f'{user}/{note}.txt', 'a') as f:
       f.write(f'[{name}]: {msg}\n')   
       
-    with open(f'{user}/{note}.txt', 'r') as f:
-      return f.read() 
+    return f'{name} sent a sms to note ({note}): {msg}'
   
   #get 
   @classmethod
