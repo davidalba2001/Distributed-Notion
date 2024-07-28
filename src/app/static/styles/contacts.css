@@ -58,7 +58,6 @@ body{
 
 .container_li{
   user-select: none;
-  list-style: none;
   color: white;
   font-weight: bold;
   padding: 5px;

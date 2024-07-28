@@ -1,0 +1,22 @@
+{%extends 'base.html'%}
+
+{%block styles_link%}
+  <link rel="stylesheet" href="{{url_for('static', filename='styles/add_note.css')}}"/>
+{%endblock%}
+{%block content%}  
+  <a class="back_button" href="{{url_for('auth.contacts', id=id, my_name=my_name)}}">back</a>
+  <div class="container_principal">
+    <form class="form_note" method="POST">
+      {{form.hidden_tag()}}
+      <div class="container_fields">
+        <div class="element_form">
+          {{form.username.label}} 
+          {{form.username}}
+        </div>
+      </div>
+      <div class="container_button">
+        {{form.submit}}
+      </div>
+    </form>
+  </div>
+{%endblock%}

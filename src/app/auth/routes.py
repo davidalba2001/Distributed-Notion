@@ -67,10 +67,8 @@ def add_contact():
     }
   
   if form.validate_on_submit():
-    username = form.name.data
-    number = form.number.data
-    server.register(set_id(username), username, int(number))
-    response = server.add_contact(id, username, int(number))
+    username = form.username.data
+    response = server.add_contact(id, username)
   
     if response == 'Contact already exists':
       return render_template('add_contact.html', **context)

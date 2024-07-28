@@ -17,8 +17,7 @@ class Login(FlaskForm):
   
 #formulario de la vista 'add_contact'
 class AddContact(FlaskForm):
-  name = StringField('name', validators=[DataRequired(), Length(1, 16, message='max 16 characters')])
-  number = IntegerField('number', validators=[DataRequired(), NumberRange(min=10000000, message='invalid number (8 digits required)')])
+  username = StringField('name', validators=[DataRequired(), Length(1, 16, message='max 16 characters')])
   submit = SubmitField('add contact')
   
 #formulario de la vista 'add_note'
