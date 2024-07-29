@@ -66,8 +66,13 @@ class NodeReference:
     return response
   
   #operaaciones get
-  def get(self, id: int, endpoint: str):
+  def get(self, id: int, endpoint: str) -> bytes:
     response = self._send_data(GET, f'{id}|{endpoint}')
+    return response
+  
+  #agregar una nota
+  def add_note(self, id: int, title: str):
+    response = self._send_data(ADD_NOTE, f'{id}|{title}') 
     return response
   ############################################################################################
   

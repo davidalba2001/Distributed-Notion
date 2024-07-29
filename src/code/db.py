@@ -18,7 +18,7 @@ class DataBase:
   def register(cls, name: str, number: int) -> str:
     #verificar si esta en la db
     if os.path.exists(f'{DB}/{name}'):
-      return 'User already exists'
+      return 'Username already in use'
     
     #agregar al nuevo usuario
     os.mkdir(f'{DB}/{name}')
@@ -76,7 +76,10 @@ class DataBase:
     with open(f'{user}/notes.txt', 'a') as f:
       f.write(f'{name} - {endpoint}\n')
     
-    return ''
+    with open(f'{user}/{name} - {endpoint}.txt', 'w') as f:
+      f.write('')
+      
+    return f'Created new note: {name}'
   
   #compartir una nota
   def recv_note(cls, id: int, name: str, note: str):

@@ -9,14 +9,14 @@
     <div class='container_head'>
       <h2>Home-Page</h2>
     </div>
-    <div class="principal_content_contacts">
-      <div class="container_contacts">
-        <div class="contacts_head">
-          <h3>Contacts</h3>
+    <div class="principal_content_notes">
+      <div class="container_notes">
+        <div class="notes_head">
+          <h3>Notes</h3>
         </div>
         <nav class="container_list">
           {%for note in notes%}
-            <a class="container_link" href="{{url_for('auth.register', title=note.split('-')[0].strip(), admin=note.split('-')[1].strip(), id=id, my_name=my_name)}}">{{note}}</a>
+            <a class="container_link" href="{{url_for('auth.note', title=note.split('-')[0].strip(), admin=note.split('-')[1].strip(), id=id, my_name=my_name)}}">{{note}}</a>
           {%endfor%}
         </nav>
         <div class="buttons_homepage">

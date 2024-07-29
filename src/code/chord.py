@@ -1,7 +1,7 @@
 #dependencias
 from src.code.db import DataBase, DB
 from src.code.comunication import NodeReference, BroadcastRef, send_data
-from src.code.comunication import REGISTER, LOGIN, ADD_CONTACT, RECV_MSG, GET
+from src.code.comunication import REGISTER, LOGIN, ADD_CONTACT, RECV_MSG, GET, ADD_NOTE
 from src.code.comunication import JOIN, CONFIRM_FIRST, FIX_FINGER, FIND_FIRST, REQUEST_DATA, CHECK_PREDECESOR, NOTIFY, UPDATE_PREDECESSOR, UPDATE_FINGER
 from src.code.handle_data import HandleData
 from src.utils import set_id, get_ip, create_folder
@@ -263,6 +263,29 @@ class Server:
     response = self._closest_preceding_finger(id).get(id, endpoint)
     print(response)
     return response
+  
+  #agregar una nota
+  def add_note(self, id: int, title: str) -> str:
+    if not self._first:
+      data_first = self._find_first().decode().split('|')
+      ip = data_first[0]
+      port = int(data_first[1])
+      first = NodeReference(ip, port)
+      return first.add_note(id, title).decode()
+    
+    else:
+      return self._add_note(id, title).decode()
+    
+  #agregar una nota
+  def _add_note(self, id: int, title: str) -> bytes:
+    if (id < self._id) or (id > self._id and self._leader):
+     response = DataBase.add_note(id, title)
+     print(response)
+     return response.encode()
+    
+    response = self._closest_preceding_finger(id).add_note(id, title)
+    print(response)
+    return response
   ############################################################################################
   
   ###################################### SOCKETS #############################################
@@ -313,6 +336,12 @@ class Server:
           id = int(data[1])
           endpoint = data[2]
           data_resp = self._get(id, endpoint)
+          conn.sendall(data_resp)
+          
+        elif option == ADD_NOTE:
+          id = int(data[1])
+          title = data[2]
+          data_resp = self._add_note(id, title)
           conn.sendall(data_resp)
           
         elif option == FIND_FIRST:

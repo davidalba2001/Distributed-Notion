@@ -127,6 +127,7 @@ def note():
   if form.validate_on_submit():
     msg = form.text.data
     server.recv_msg(id, f'{title} - {admin}', my_name, msg)
+    return redirect(url_for('auth.homepage', id=id, my_name=my_name))
     
   context = {
     'form': form,
@@ -134,7 +135,7 @@ def note():
     'my_name': my_name, 
     'title': title,
     'admin': admin,
-    'data': [msg for msg in data.replace(f'[{my_name}]', '[YOU]').split('\n') if msg != '']
+    'data': [msg for msg in data.replace(f'[{my_name}]', '[you]').split('\n') if msg != '']
     }
   return render_template('note.html', **context)
 
