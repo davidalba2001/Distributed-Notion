@@ -1,7 +1,7 @@
 #dependencias
 from src.code.db import DataBase, DB
 from src.code.comunication import NodeReference, BroadcastRef, send_data
-from src.code.comunication import REGISTER, LOGIN, ADD_CONTACT, RECV_MSG, GET, ADD_NOTE
+from src.code.comunication import REGISTER, LOGIN, ADD_CONTACT, RECV_MSG, GET, ADD_NOTE, RECV_NOTE
 from src.code.comunication import JOIN, CONFIRM_FIRST, FIX_FINGER, FIND_FIRST, REQUEST_DATA, CHECK_PREDECESOR, NOTIFY, UPDATE_PREDECESSOR, UPDATE_FINGER
 from src.code.handle_data import HandleData
 from src.utils import set_id, get_ip, create_folder
@@ -38,7 +38,7 @@ class Server:
     threading.Thread(target=self._start_stabilize_server).start()
     threading.Thread(target=self._set_leader).start()
     threading.Thread(target=self._set_first).start()
-    threading.Thread(target=self._info).start()
+    #threading.Thread(target=self._info).start()
     threading.Thread(target=self._check_predecessor).start()
     
     #ejecutar al unirme a la red
@@ -286,6 +286,29 @@ class Server:
     response = self._closest_preceding_finger(id).add_note(id, title)
     print(response)
     return response
+  
+  #compartir una nota
+  def recv_note(self, id: int, name: str, note: str) -> str:
+    if not self._first:
+      data_first = self._find_first().decode().split('|')
+      ip = data_first[0]
+      port = int(data_first[1])
+      first = NodeReference(ip, port)
+      return first.recv_note(id, name, note).decode()
+    
+    else:
+      return self._recv_note(id, name, note).decode()
+    
+  #compartir una nota
+  def _recv_note(self, id: int, name: str, note: str) -> bytes:
+    if (id < self._id) or (id > self._id and self._leader):
+      response = DataBase.recv_note(id, name, note)
+      print(response)
+      return response.encode()
+    
+    response = self._closest_preceding_finger(id).recv_note(id, name, note)
+    print(response)
+    return response
   ############################################################################################
   
   ###################################### SOCKETS #############################################
@@ -309,20 +332,17 @@ class Server:
           name = data[2]
           number = str(data[3])
           data_resp = self._register(id, name, number)
-          conn.sendall(data_resp)
           
         elif option == LOGIN:
           id = int(data[1])
           name = data[2]
           number = str(data[3])
           data_resp = self._login(id, name, number)
-          conn.sendall(data_resp)
           
         elif option == ADD_CONTACT:
           id = int(data[1])
           name = data[2]
           data_resp = self._add_contact(id, name)
-          conn.sendall(data_resp)
              
         elif option == RECV_MSG:
           id = int(data[1])
@@ -330,23 +350,25 @@ class Server:
           username = data[3]
           msg = data[4]
           data_resp = self._recv_msg(id, note, username, msg)
-          conn.sendall(data_resp)
           
         elif option == GET:
           id = int(data[1])
           endpoint = data[2]
           data_resp = self._get(id, endpoint)
-          conn.sendall(data_resp)
           
         elif option == ADD_NOTE:
           id = int(data[1])
           title = data[2]
           data_resp = self._add_note(id, title)
-          conn.sendall(data_resp)
+          
+        elif option == RECV_NOTE:
+          id = int(data[1])
+          name = data[2]
+          title = data[3]
+          data_resp = self._recv_note(id, name, title)
           
         elif option == FIND_FIRST:
           data_resp = self._find_first()
-          conn.sendall(data_resp)
           
         elif option == JOIN:
           ip = data[1]
@@ -358,14 +380,12 @@ class Server:
             
           if data_resp[2] == self._ip and data_resp[3] == self._tcp_port:
             self._pred = NodeReference(ip, id)
-          
-          conn.sendall(data_resp)
-          
+            
         elif option == REQUEST_DATA:
           id = int(data[1])
           data_resp = self._handler.data(True, id).encode()
-          conn.sendall(data_resp)
-              
+         
+        conn.sendall(data_resp)     
         conn.close()
   
   #iniciar server para escuchar broadcasting

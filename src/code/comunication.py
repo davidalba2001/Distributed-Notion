@@ -71,8 +71,13 @@ class NodeReference:
     return response
   
   #agregar una nota
-  def add_note(self, id: int, title: str):
+  def add_note(self, id: int, title: str) -> bytes:
     response = self._send_data(ADD_NOTE, f'{id}|{title}') 
+    return response
+  
+  #compartir una nota
+  def recv_note(self, id: int, name: str, note: str) -> bytes:
+    response = self._send_data(RECV_NOTE, f'{id}|{name}|{note}')
     return response
   ############################################################################################
   

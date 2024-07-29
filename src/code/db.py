@@ -82,19 +82,22 @@ class DataBase:
     return f'Created new note: {name}'
   
   #compartir una nota
-  def recv_note(cls, id: int, name: str, note: str):
+  @classmethod
+  def recv_note(cls, id: int, name: str, note: str) -> str:
     #referenciar el usuario segun el id
     user = find_user(id)
     
-    #validar si la nota ya fue compartida
-    with open(f'{user}/notes.txt', 'r') as f:
-      if f'{note} - {name}' in f.read():
-        return 'Note already shared'
-      
-    with open(f'{user}/notes.txt', 'a') as f:
-      f.write(f'{note} - {name}\n')
+    if user != None:
+      #validar si la nota ya fue compartida
+      with open(f'{user}/notes.txt', 'r') as f:
+        if f'{note} - {name}' in f.readlines():
+          return 'Note already shared'
+
+      with open(f'{user}/notes.txt', 'a') as f:
+        f.write(f'{note} - {name}\n')
+        return f"Succesfully shared note: {note}"
     
-    return ''
+    return 'User not registred'
     
   #recibir un sms
   @classmethod

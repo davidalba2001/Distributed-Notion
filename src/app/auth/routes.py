@@ -121,12 +121,12 @@ def note():
   my_name = request.args.get('my_name')
   title = request.args.get('title')
   admin = request.args.get('admin')
-  data = server.get(id, f'{title} - {admin}')
+  data = server.get(set_id(admin), f'{title} - {admin}')
   form = Note()
   
   if form.validate_on_submit():
     msg = form.text.data
-    server.recv_msg(id, f'{title} - {admin}', my_name, msg)
+    server.recv_msg(set_id(admin), f'{title} - {admin}', my_name, msg)
     return redirect(url_for('auth.homepage', id=id, my_name=my_name))
     
   context = {
@@ -140,7 +140,7 @@ def note():
   return render_template('note.html', **context)
 
 #ruta para compartir una nota
-@auth.route('/share')
+@auth.route('/share', methods=['GET', 'POST'])
 def share():
   id = int(request.args.get('id'))
   my_name = request.args.get('my_name')
@@ -155,7 +155,7 @@ def share():
     
     if username in names:
       server.recv_note(set_id(username), my_name, title)
-      return redirect('auth.note', id=id, my_name=my_name, title=title, admin=admin)
+      return redirect(url_for('auth.note', id=id, my_name=my_name, title=title, admin=admin))
       
   context = {
     'id': id,
