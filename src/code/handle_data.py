@@ -17,7 +17,7 @@ class HandleData():
       if id == None or (id < self._id and set_id(user) < id) or (id > self._id and set_id(user) > self._id):
         result += f'{user}'
         
-        for file in os.listdir(DB):
+        for file in os.listdir(f'{DB}/{user}'):
           with open(f'{DB}/{user}/{file}', 'r') as f:
             result += f'/{file}/{f.read()}'
   
@@ -28,7 +28,8 @@ class HandleData():
     return result
   
   #crear data en la db
-  def create(self, data: str):
+  @classmethod
+  def create(cls, data: str):
     users = data.split('|')
     
     for user in users:
