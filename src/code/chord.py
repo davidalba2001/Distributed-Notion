@@ -2,7 +2,7 @@
 from src.code.db import DataBase, DB
 from src.code.comunication import NodeReference, BroadcastRef, send_data
 from src.code.comunication import REGISTER, LOGIN, ADD_CONTACT, RECV_MSG, GET, ADD_NOTE, RECV_NOTE
-from src.code.comunication import JOIN, CONFIRM_FIRST, FIX_FINGER, FIND_FIRST, REQUEST_DATA, CHECK_PREDECESOR, NOTIFY, UPDATE_PREDECESSOR, UPDATE_FINGER
+from src.code.comunication import JOIN, CONFIRM_FIRST, FIX_FINGER, FIND_FIRST, REQUEST_DATA, CHECK_PREDECESOR, NOTIFY, UPDATE_PREDECESSOR, UPDATE_FINGER, UPDATE_JOIN
 from src.code.handle_data import HandleData
 from src.utils import set_id, get_ip, create_folder
 import socket
@@ -63,12 +63,14 @@ class Server:
       
     elif id < self._id:
       response = f'{self._pred.ip}|{self._pred.port}|{self._ip}|{self._tcp_port}'
+      send_data(UPDATE_JOIN, self._pred.ip, self._udp_port, f'{ip}|{port}')
       self._pred = NodeReference(ip, port)
       return response.encode()
     
     else:
       if self._leader:
         response = f'{self._ip}|{self._tcp_port}|{self._succ.ip}|{self._succ.port}'
+        send_data(UPDATE_JOIN, self._succ.ip, self._udp_port, f'{ip}|{port}')
         self._succ = NodeReference(ip, port)
         return response.encode()
   
@@ -376,12 +378,6 @@ class Server:
           ip = data[1]
           port = int(data[2])
           data_resp = self._join(ip, port)
-          
-          if data_resp[0] == self._ip and data_resp[1] == self._tcp_port:
-            self._succ = NodeReference(ip, id)
-            
-          if data_resp[2] == self._ip and data_resp[3] == self._tcp_port:
-            self._pred = NodeReference(ip, id)
             
         elif option == REQUEST_DATA:
           id = int(data[1])
@@ -473,6 +469,11 @@ class Server:
           self._broadcast.update_finger(self._pred.id)
           self._pred = NodeReference(ip, port)
                   
+        elif option == UPDATE_JOIN:
+          ip = data[1]
+          port = int(data[2])
+          self._succ = NodeReference(ip, port)
+          
   #iniciar server stabilize
   def _start_stabilize_server(self):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
