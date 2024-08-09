@@ -143,7 +143,7 @@ class BroadcastRef():
     self._send_data(UPDATE_FINGER, id)
     
 #enviar data a los servidores udp
-def send_data(op: str, ip: str, port: str, data=None):
+def send_data(op: str, ip: str, port: int, data=None):
   try:
     with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as s:
       s.sendto(f'{op}|{data}'.encode('utf-8'), (ip, port))

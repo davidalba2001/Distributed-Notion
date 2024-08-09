@@ -38,7 +38,7 @@ class Server:
     threading.Thread(target=self._start_stabilize_server).start()
     threading.Thread(target=self._set_leader).start()
     threading.Thread(target=self._set_first).start()
-    #threading.Thread(target=self._info).start()
+    threading.Thread(target=self._info).start()
     threading.Thread(target=self._check_predecessor).start()
     
     #ejecutar al unirme a la red
@@ -89,8 +89,8 @@ class Server:
   def _info(self):
     while True:
       time.sleep(10)
-      print(f'pred: {self._pred.id if self._pred != None else None}, succ: {self._succ.id}') 
-      print(f'{"first" if self._first else "not first"}, {"leader" if self._leader else "not leader"} ')
+      print(f'pred: {self._pred.ip if self._pred != None else None}, succ: {self._succ.ip}') 
+      print(f'{"first" if self._first else "not first"}, {"leader" if self._leader else "not leader"}')
    
   #actualizar la finger cuando entra un nodo
   def _fix_finger(self, node: NodeReference):
@@ -111,6 +111,8 @@ class Server:
           return self._finger[i]
         
         return self._finger[i - 1]
+      
+      return self._finger[i]
   
   #encontrar el nodo 'first'
   def _find_first(self) -> bytes:
@@ -330,13 +332,13 @@ class Server:
         if option == REGISTER:
           id = int(data[1])
           name = data[2]
-          number = str(data[3])
+          number = int(data[3])
           data_resp = self._register(id, name, number)
           
         elif option == LOGIN:
           id = int(data[1])
           name = data[2]
-          number = str(data[3])
+          number = int(data[3])
           data_resp = self._login(id, name, number)
           
         elif option == ADD_CONTACT:
@@ -372,7 +374,7 @@ class Server:
           
         elif option == JOIN:
           ip = data[1]
-          port = data[2]
+          port = int(data[2])
           data_resp = self._join(ip, port)
           
           if data_resp[0] == self._ip and data_resp[1] == self._tcp_port:
@@ -457,7 +459,7 @@ class Server:
         if option == CONFIRM_FIRST:
           action = data[1]
           ip = data[2]
-          port = int(data[3]   )
+          port = int(data[3])
           first = NodeReference(ip, port)
           
           if action == JOIN:            

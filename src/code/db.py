@@ -41,7 +41,7 @@ class DataBase:
     if os.path.exists(f'{DB}/{name}'):
       with open(f'{DB}/{name}/number.txt', 'r') as f:
         if str(number) in f.read(): 
-          return 'succesfully login'
+          return 'Succesfully login'
         
     return 'User not registred'
 
